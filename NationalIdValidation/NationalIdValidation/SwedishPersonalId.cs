@@ -159,9 +159,10 @@ namespace NationalIdValidation
                     cent = int.Parse(thisYear.ToString(CultureInfo.InvariantCulture).Substring(0, 2));
                 }
             }
+            y += int.Parse(cent.ToString(CultureInfo.InvariantCulture) + "00");
             // The date should parse to a valid DateTime object
             DateTime bDate;
-            if (!DateTime.TryParseExact(string.Format("{0}{1}{2}{3}{4}{5}", cent, y, m1, m2, d1, d2), "yyyyMMdd",
+            if (!DateTime.TryParseExact(string.Format("{0}{1}{2}{3}{4}", y, m1, m2, d1, d2), "yyyyMMdd",
                 CultureInfo.InvariantCulture, DateTimeStyles.None, out bDate)) return;
             BirthDate = bDate;
             IsValid = true;
