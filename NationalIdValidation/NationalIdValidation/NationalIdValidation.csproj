@@ -42,6 +42,8 @@
     <Compile Include="NorwegianPersonalId.cs" />
     <Compile Include="NorwegianPersonalIdType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SwedishPersonalId.cs" />
+    <Compile Include="SwedishPersonalIdType.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

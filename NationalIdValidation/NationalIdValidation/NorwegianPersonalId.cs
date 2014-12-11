@@ -47,7 +47,7 @@ namespace NationalIdValidation
             Gender = Gender.Unknown;
             BirthDate = DateTime.MinValue;
             NorwegianPersonalIdType = NorwegianPersonalIdType.Unknown;
-            var reg = Regex.Match(norwegianIdString, @"^(?<d1>[0-7])(?<d2>[0-9])(?<m1>[0-5])(?<m2>[0-9])(?<y3>[0-9])(?<y4>[0-9])[.-]?(?<i1>\d)(?<i2>\d)(?<i3>\d)(?<k1>\d)(?<k2>\d)$", RegexOptions.CultureInvariant | RegexOptions.Singleline);
+            var reg = Regex.Match(norwegianIdString, @"^(?<d1>[0-7])(?<d2>[0-9])(?<m1>[0-5])(?<m2>[0-9])(?<y3>[0-9])(?<y4>[0-9])[.-]?(?<i1>\d)(?<i2>\d)(?<i3>\d)(?<c1>\d)(?<c2>\d)$", RegexOptions.CultureInvariant | RegexOptions.Singleline);
             // ^ --> beginning of line
             // (?<d1>[0-3]) --> first day digit of days 01-31 (d-no 41-71)
             // (?<d2>[0-9]) --> second day digit of days 01-31
@@ -59,8 +59,8 @@ namespace NationalIdValidation
             // (?<i1>\d) --> first digit in individual number
             // (?<i2>\d) --> second digit in individual number
             // (?<i3>\d) --> third digit in individual number
-            // (?<k1>\d) --> first digit in control number
-            // (?<k2>\d) --> first digit in control number
+            // (?<c1>\d) --> first digit in control number
+            // (?<c2>\d) --> first digit in control number
             // $ --> end of line
             if (!reg.Success) return;
             var d1 = int.Parse(reg.Groups["d1"].Value); // day 1
