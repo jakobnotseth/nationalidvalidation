@@ -29,7 +29,7 @@ namespace NationalIdValidation
         /// <summary>
         /// Creates a NorwegianPersonalId object
         /// </summary>
-        /// <param name="norwegianIdString">Any Norwegian personal id string with or without divider (period or dash) between date and individual number</param>
+        /// <param name="norwegianIdString">Any Norwegian personal id string with or without divider (dash) between date and individual number</param>
         /// <example><code>
         /// var id = new NorwegianPersonalId("11111111111");
         /// if (id.IsValid) {
@@ -48,7 +48,7 @@ namespace NationalIdValidation
             BirthDate = DateTime.MinValue;
             NorwegianPersonalIdType = NorwegianPersonalIdType.Unknown;
             if (string.IsNullOrEmpty(norwegianIdString)) return;
-            var reg = Regex.Match(norwegianIdString, @"^(?<d1>[0-7])(?<d2>[0-9])(?<m1>[0-5])(?<m2>[0-9])(?<y3>[0-9])(?<y4>[0-9])[.-]?(?<i1>\d)(?<i2>\d)(?<i3>\d)(?<c1>\d)(?<c2>\d)$", RegexOptions.CultureInvariant | RegexOptions.Singleline);
+            var reg = Regex.Match(norwegianIdString, @"^(?<d1>[0-7])(?<d2>[0-9])(?<m1>[0-5])(?<m2>[0-9])(?<y3>[0-9])(?<y4>[0-9])-?(?<i1>\d)(?<i2>\d)(?<i3>\d)(?<c1>\d)(?<c2>\d)$", RegexOptions.CultureInvariant | RegexOptions.Singleline);
             // ^ --> beginning of line
             // (?<d1>[0-3]) --> first day digit of days 01-31 (d-no 41-71)
             // (?<d2>[0-9]) --> second day digit of days 01-31
@@ -56,7 +56,7 @@ namespace NationalIdValidation
             // (?<m2>[0-9]) --> second month digit of months 01-12
             // (?<y3>[0-9]) --> third year digit
             // (?<y4>[0-9]) --> fourth year digit
-            // [.-]? --> optional divider between date part and individual part
+            // -? --> optional divider between date part and individual part
             // (?<i1>\d) --> first digit in individual number
             // (?<i2>\d) --> second digit in individual number
             // (?<i3>\d) --> third digit in individual number
