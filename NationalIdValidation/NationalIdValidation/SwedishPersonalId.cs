@@ -47,6 +47,7 @@ namespace NationalIdValidation
             Gender = Gender.Unknown;
             BirthDate = DateTime.MinValue;
             SwedishPersonalIdType = SwedishPersonalIdType.Unknown;
+            if (string.IsNullOrEmpty(swedishIdString)) return;
             var reg = Regex.Match(swedishIdString,
                 @"^(?<y3>[0-9])(?<y4>[0-9])(?<m1>[0-3])(?<m2>[0-9])(?<d1>[0-9])(?<d2>[0-9])(?<divider>[+-])(?<i1>\d)(?<i2>\d)(?<i3>\d)(?<c1>\d)$",
                 RegexOptions.CultureInvariant | RegexOptions.Singleline);

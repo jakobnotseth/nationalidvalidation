@@ -50,6 +50,7 @@ namespace NationalIdValidation
             Gender = Gender.Unknown;
             BirthDate = DateTime.MinValue;
             DanishPersonalIdType = DanishPersonalIdType.Unknown;
+            if (string.IsNullOrEmpty(danishIdString)) return;
             var reg = Regex.Match(danishIdString, @"^(?<d1>[0-9])(?<d2>[0-9])(?<m1>[0-1])(?<m2>[0-9])(?<y3>[0-9])(?<y4>[0-9])-?(?<s1>\d)(?<s2>\d)(?<s3>\d)(?<s4>\d)$", RegexOptions.CultureInvariant | RegexOptions.Singleline);
             if (!reg.Success) return;
             var d1 = int.Parse(reg.Groups["d1"].Value); // day 1
