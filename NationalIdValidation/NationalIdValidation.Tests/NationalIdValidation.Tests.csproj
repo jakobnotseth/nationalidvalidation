@@ -50,11 +50,10 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="FinnishPersonalIdUnitTests.cs" />
     <Compile Include="NorwegianPersonalIdUnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ValidNorwegianPersonalIds.csv" />
+    <Compile Include="DanishPersonalIdUnitTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NationalIdValidation\NationalIdValidation.csproj">

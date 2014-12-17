@@ -124,7 +124,19 @@ namespace NationalIdValidation.Tests
             };
             InvalidIdNumbers = new List<string>
             {
+                null,
                 "",
+                "\0",
+                ":",
+                "0",
+                "000000\0",
+                "000000-",
+                "000000\u00000",
+                "0000008\0",
+                "000000-88888",
+                "400000-22288",
+                "004000-22288",
+                "000000-00000\0",
                 "abcdefghijk",
                 "abcdef51843",
                 "01059422222",

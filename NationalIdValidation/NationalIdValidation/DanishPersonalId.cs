@@ -25,6 +25,10 @@ namespace NationalIdValidation
         /// In case of a validated input, returns whether the id is a birth number or replacement number, otherwise unknown
         /// </summary>
         public DanishPersonalIdType DanishPersonalIdType { get; private set; }
+        /// <summary>
+        /// Returns whether the id is valid according to the old modulus rule
+        /// </summary>
+        public bool IsModuloValid { get; set; }
 
         /// <summary>
         /// Creates a DanishPersonalId object
@@ -47,6 +51,7 @@ namespace NationalIdValidation
         public DanishPersonalId(string danishIdString)
         {
             IsValid = false;
+            IsModuloValid = false;
             Gender = Gender.Unknown;
             BirthDate = DateTime.MinValue;
             DanishPersonalIdType = DanishPersonalIdType.Unknown;
@@ -63,13 +68,6 @@ namespace NationalIdValidation
             var s2 = int.Parse(reg.Groups["s2"].Value); // sequential 2
             var s3 = int.Parse(reg.Groups["s3"].Value); // sequential 3
             var s4 = int.Parse(reg.Groups["s4"].Value); // sequential 4
-            // CPR numbers can no longer be modulo 11 validated!
-            // Old modulo function:
-            //var r1 = ((d1 * 4) + (d2 * 3) + (m1 * 2) + (m2 * 7) + (y3 * 6) + (y4 * 5) + (s1 * 4) + (s2 * 3) + (s3 * 2)) % 11; // result 1
-            //if (s4 != 11 - r1)
-            //{
-            //    return;
-            //}
             // The kind of number can be defined by the presence of a added 6 to first digit of day, otherwise birth number
             if (d1 >= 6)
             {
@@ -100,6 +98,14 @@ namespace NationalIdValidation
                 CultureInfo.InvariantCulture, DateTimeStyles.None, out bDate)) return;
             BirthDate = bDate;
             IsValid = true;
+            // CPR numbers can no longer be modulo 11 validated!
+            // Old modulo function:
+            // if (((d1 * 4) + (d2 * 3) + (m1 * 2) + (m2 * 7) + (y3 * 6) + (y4 * 5) + (s1 * 4) + (s2 * 3) + (s3 * 2) + (s4)) % 11 == 0)
+            var r1 = ((d1 * 4) + (d2 * 3) + (m1 * 2) + (m2 * 7) + (y3 * 6) + (y4 * 5) + (s1 * 4) + (s2 * 3) + (s3 * 2)) % 11; // result 1
+            if (s4 == 11 - r1)
+            {
+                IsModuloValid = true;
+            }
         }
     }
 }

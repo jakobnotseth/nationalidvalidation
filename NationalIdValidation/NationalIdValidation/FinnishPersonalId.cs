@@ -43,7 +43,7 @@ namespace NationalIdValidation
             Gender = Gender.Unknown;
             BirthDate = DateTime.MinValue;
             if (string.IsNullOrEmpty(finnishIdString)) return;
-            var reg = Regex.Match(finnishIdString, @"^(?<d1>[0-3])(?<d2>[0-9])(?<m1>[0-1])(?<m2>[0-9])(?<y3>[0-9])(?<y4>[0-9])(?<divider>[+-A])(?<i1>\d)(?<i2>\d)(?<i3>\d)(?<c1>[\dA-Y])$", RegexOptions.CultureInvariant | RegexOptions.Singleline);
+            var reg = Regex.Match(finnishIdString, @"^(?<d1>[0-3])(?<d2>[0-9])(?<m1>[0-1])(?<m2>[0-9])(?<y3>[0-9])(?<y4>[0-9])(?<divider>[+-A])(?<i1>\d)(?<i2>\d)(?<i3>\d)(?<c1>[\dABCDEFHJKLMNPRSTUVWXY])$", RegexOptions.CultureInvariant | RegexOptions.Singleline);
             if (!reg.Success) return;
             var d1 = int.Parse(reg.Groups["d1"].Value); // day 1
             var d2 = int.Parse(reg.Groups["d2"].Value); // day 2
@@ -56,24 +56,25 @@ namespace NationalIdValidation
             var i2 = int.Parse(reg.Groups["i2"].Value); // individual 2
             var i3 = int.Parse(reg.Groups["i3"].Value); // individual 3
             var c1 = reg.Groups["c1"].Value; // control 1
-            var sum = int.Parse(string.Format("{0}{1}{2}{3}{4}{5}{6}{7}{8}", d1, d2, m1, m2, y3, y4, i1, i2, i3)) / 31;
+            var sum = int.Parse(string.Format("{0}{1}{2}{3}{4}{5}{6}{7}{8}", d1, d2, m1, m2, y3, y4, i1, i2, i3)) % 31;
             var controls = new[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "H", "J", "K", "L", "M", "N", "P", "R", "S", "T", "U", "V", "W", "X", "Y" };
             if (c1 != controls[sum]) return;
             Gender = i3 % 2 == 0 ? Gender.Female : Gender.Male;
             var y = int.Parse(string.Format("{0}{1}", y3, y4));
-            if (divider == "-")
+            switch (divider)
             {
-                y += 1800;
+                case "+":
+                    y += 1800;
+                    break;
+                case "-":
+                    y += 1900;
+                    break;
+                case "A":
+                    y += 2000;
+                    break;
+                default:
+                    return;
             }
-            else if (divider == "+")
-            {
-                y += 1900;
-            }
-            else if (divider == "A")
-            {
-                y += 2000;
-            }
-            else return;
             // The date should parse to a valid DateTime object
             DateTime bDate;
             if (!DateTime.TryParseExact(string.Format("{0}{1}{2}{3}{4}", y, m1, m2, d1, d2), "yyyyMMdd",
