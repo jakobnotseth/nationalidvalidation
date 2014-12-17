@@ -37,8 +37,10 @@
   <ItemGroup>
     <Compile Include="DanishPersonalId.cs" />
     <Compile Include="DanishPersonalIdType.cs" />
+    <Compile Include="EnglishNationalInsuranceId.cs" />
     <Compile Include="FinnishPersonalId.cs" />
     <Compile Include="Gender.cs" />
+    <Compile Include="NhsNumber.cs" />
     <Compile Include="NorwegianPersonalId.cs" />
     <Compile Include="NorwegianPersonalIdType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
