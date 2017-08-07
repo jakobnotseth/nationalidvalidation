@@ -12,19 +12,19 @@ namespace NationalIdValidation
         /// <summary>
         /// Returns whether the string input was validated
         /// </summary>
-        public bool IsValid { get; private set; }
+        public bool IsValid { get; }
         /// <summary>
         /// In case of a validated input, returns Male or Female, otherwise Unknown
         /// </summary>
-        public Gender Gender { get; private set; }
+        public Gender Gender { get; }
         /// <summary>
         /// In case of a validated input, returns a valid date, otherwise returns DateTime.MinValue
         /// </summary>
-        public DateTime BirthDate { get; private set; }
+        public DateTime BirthDate { get; }
         /// <summary>
         /// In case of a validated input, returns whether the id is a birth number, coordination number or organisationnumber, otherwise unknown
         /// </summary>
-        public SwedishPersonalIdType SwedishPersonalIdType { get; private set; }
+        public SwedishPersonalIdType SwedishPersonalIdType { get; }
 
         /// <summary>
         /// Creates a SwedishPersonalId object
@@ -133,7 +133,7 @@ namespace NationalIdValidation
             else
                 SwedishPersonalIdType = SwedishPersonalIdType.BirthNumber;
             Gender = i3 % 2 == 0 ? Gender.Female : Gender.Male;
-            var y = int.Parse(string.Format("{0}{1}", y3, y4));
+            var y = int.Parse($"{y3}{y4}");
             int cent;
             var thisYear = DateTime.Now.Year;
             if (divider == "+")
@@ -163,7 +163,7 @@ namespace NationalIdValidation
             y += int.Parse(cent.ToString(CultureInfo.InvariantCulture) + "00");
             // The date should parse to a valid DateTime object
             DateTime bDate;
-            if (!DateTime.TryParseExact(string.Format("{0}{1}{2}{3}{4}", y, m1, m2, d1, d2), "yyyyMMdd",
+            if (!DateTime.TryParseExact($"{y}{m1}{m2}{d1}{d2}", "yyyyMMdd",
                 CultureInfo.InvariantCulture, DateTimeStyles.None, out bDate)) return;
             BirthDate = bDate;
             IsValid = true;

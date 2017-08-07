@@ -12,19 +12,19 @@ namespace NationalIdValidation
         /// <summary>
         /// Returns whether the string input was validated
         /// </summary>
-        public bool IsValid { get; private set; }
+        public bool IsValid { get; }
         /// <summary>
         /// In case of a validated input, returns Male or Female, otherwise Unknown
         /// </summary>
-        public Gender Gender { get; private set; }
+        public Gender Gender { get; }
         /// <summary>
         /// In case of a validated input, returns a valid date, otherwise returns DateTime.MinValue
         /// </summary>
-        public DateTime BirthDate { get; private set; }
+        public DateTime BirthDate { get; }
         /// <summary>
         /// In case of a validated input, returns whether the id is a birth number or replacement number, otherwise unknown
         /// </summary>
-        public DanishPersonalIdType DanishPersonalIdType { get; private set; }
+        public DanishPersonalIdType DanishPersonalIdType { get; }
         /// <summary>
         /// Returns whether the id is valid according to the old modulus rule
         /// </summary>
@@ -78,8 +78,8 @@ namespace NationalIdValidation
                 DanishPersonalIdType = DanishPersonalIdType.BirthNumber;
             // The gender can be determined by the fourth sequence number, odd digit is male, even is female
             Gender = s4 % 2 == 0 ? Gender.Female : Gender.Male;
-            var i = int.Parse(string.Format("{0}{1}{2}{3}", s1, s2, s3, s4));
-            var y = int.Parse(string.Format("{0}{1}", y3, y4));
+            var i = int.Parse($"{s1}{s2}{s3}{s4}");
+            var y = int.Parse($"{y3}{y4}");
             if (i <= 3999 || (i <= 4999 && y >= 37) || (i >= 9000 && i <= 9999 && y >= 37))
             {
                 y += 1900;
@@ -93,9 +93,8 @@ namespace NationalIdValidation
                 y += 2000;
             }
             // The date should parse to a valid DateTime object
-            DateTime bDate;
-            if (!DateTime.TryParseExact(string.Format("{0}{1}{2}{3}{4}", y, m1, m2, d1, d2), "yyyyMMdd",
-                CultureInfo.InvariantCulture, DateTimeStyles.None, out bDate)) return;
+            if (!DateTime.TryParseExact($"{y}{m1}{m2}{d1}{d2}", "yyyyMMdd",
+                CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime bDate)) return;
             BirthDate = bDate;
             IsValid = true;
             // CPR numbers can no longer be modulo 11 validated!

@@ -11,10 +11,10 @@ namespace NationalIdValidation.Tests
     [TestClass]
     public class NorwegianPersonalIdUnitTests
     {
-        List<string> ValidIdNumbers { get; set; }
-        List<string> InvalidIdNumbers { get; set; }
-        List<string> MaleIds { get; set; }
-        List<string> FemaleIds { get; set; }
+        private List<string> ValidIdNumbers { get; set; }
+        private List<string> InvalidIdNumbers { get; set; }
+        private List<string> MaleIds { get; set; }
+        private List<string> FemaleIds { get; set; }
         
         [TestInitialize]
         public void Initialize()
@@ -280,7 +280,7 @@ namespace NationalIdValidation.Tests
             foreach (var id in ValidIdNumbers)
             {
                 var idObject = new NorwegianPersonalId(id);
-                Assert.IsTrue(idObject.IsValid, string.Format("A valid mathematically number does not validate: {0}", id));
+                Assert.IsTrue(idObject.IsValid, $"A valid mathematically number does not validate: {id}");
             }
         }
 
@@ -290,7 +290,7 @@ namespace NationalIdValidation.Tests
             foreach (var id in InvalidIdNumbers)
             {
                 var idObject = new NorwegianPersonalId(id);
-                Assert.IsFalse(idObject.IsValid, string.Format("An invalid mathematically number does validate: {0}", id));
+                Assert.IsFalse(idObject.IsValid, $"An invalid mathematically number does validate: {id}");
             }
         }
 

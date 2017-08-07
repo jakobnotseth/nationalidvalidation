@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace NationalIdValidation
 {
@@ -15,9 +11,9 @@ namespace NationalIdValidation
         /// <summary>
         /// Returns whether the string input was validated
         /// </summary>
-        public bool IsValid { get; private set; }
+        public bool IsValid { get; }
 
-        public DayOfWeek BenefitsDay { get; private set; }
+        public DayOfWeek BenefitsDay { get; }
 
         /// <summary>
         /// Creates a EnglishNationalInsuranceId object

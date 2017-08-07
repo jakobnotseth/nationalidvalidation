@@ -10,7 +10,7 @@ namespace NationalIdValidation
         /// <summary>
         /// Returns whether the string input was validated
         /// </summary>
-        public bool IsValid { get; private set; }
+        public bool IsValid { get; }
 
         /// <summary>
         /// Creates a NhsNumber object
@@ -41,8 +41,16 @@ namespace NationalIdValidation
             if (d1 == d2 && d2 == d3 && d3 == d4 && d4 == d5 && d5 == d6 && d6 == d7 && d7 == d8 && d8 == d9) return;
             var remainder = ((d1*10) + (d2*9) + (d3*8) + (d4*7) + (d5*6) + (d6*5) + (d7*4) + (d8*3) + (d9*2)%11);
             var control = 11 - remainder;
-            if (control == 10) return;
-            if (control == 11) control = 0;
+            switch (control)
+            {
+                case 10:
+                    return;
+                case 11:
+                    control = 0;
+                    break;
+                default:
+                    break;
+            }
             if (c1 != control) return;
             IsValid = true;
         }

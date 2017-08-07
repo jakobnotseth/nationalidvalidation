@@ -12,15 +12,15 @@ namespace NationalIdValidation
         /// <summary>
         /// Returns whether the string input was validated
         /// </summary>
-        public bool IsValid { get; private set; }
+        public bool IsValid { get; }
         /// <summary>
         /// In case of a validated input, returns Male or Female, otherwise Unknown
         /// </summary>
-        public Gender Gender { get; private set; }
+        public Gender Gender { get; }
         /// <summary>
         /// In case of a validated input, returns a valid date, otherwise returns DateTime.MinValue
         /// </summary>
-        public DateTime BirthDate { get; private set; }
+        public DateTime BirthDate { get; }
 
         /// <summary>
         /// Creates a FinnishPersonalId object
@@ -56,11 +56,11 @@ namespace NationalIdValidation
             var i2 = int.Parse(reg.Groups["i2"].Value); // individual 2
             var i3 = int.Parse(reg.Groups["i3"].Value); // individual 3
             var c1 = reg.Groups["c1"].Value; // control 1
-            var sum = int.Parse(string.Format("{0}{1}{2}{3}{4}{5}{6}{7}{8}", d1, d2, m1, m2, y3, y4, i1, i2, i3)) % 31;
+            var sum = int.Parse($"{d1}{d2}{m1}{m2}{y3}{y4}{i1}{i2}{i3}") % 31;
             var controls = new[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "H", "J", "K", "L", "M", "N", "P", "R", "S", "T", "U", "V", "W", "X", "Y" };
             if (c1 != controls[sum]) return;
             Gender = i3 % 2 == 0 ? Gender.Female : Gender.Male;
-            var y = int.Parse(string.Format("{0}{1}", y3, y4));
+            var y = int.Parse($"{y3}{y4}");
             switch (divider)
             {
                 case "+":
@@ -77,7 +77,7 @@ namespace NationalIdValidation
             }
             // The date should parse to a valid DateTime object
             DateTime bDate;
-            if (!DateTime.TryParseExact(string.Format("{0}{1}{2}{3}{4}", y, m1, m2, d1, d2), "yyyyMMdd",
+            if (!DateTime.TryParseExact($"{y}{m1}{m2}{d1}{d2}", "yyyyMMdd",
                 CultureInfo.InvariantCulture, DateTimeStyles.None, out bDate)) return;
             BirthDate = bDate;
             IsValid = true;
