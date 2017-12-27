@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace NationalIdValidation.Tests
 {
     [TestClass]
-    public class NorwegianAccountNumberUnitTests
+    public class NorwegianBankAccountNumberUnitTests
     {
         private List<string> ValidIdNumbers { get; set; }
         private List<string> InvalidIdNumbers { get; set; }
@@ -42,7 +42,7 @@ namespace NationalIdValidation.Tests
         {
             foreach (var id in ValidIdNumbers)
             {
-                var idObject = new NorwegianAccountNumber(id);
+                var idObject = new NorwegianBankAccountNumber(id);
                 Assert.IsTrue(idObject.IsValid, $"A valid mathematically number does not validate: {id}");
             }
         }
@@ -52,7 +52,7 @@ namespace NationalIdValidation.Tests
         {
             foreach (var id in InvalidIdNumbers)
             {
-                var idObject = new NorwegianAccountNumber(id);
+                var idObject = new NorwegianBankAccountNumber(id);
                 Assert.IsFalse(idObject.IsValid, $"An invalid mathematically number does validate: {id}");
             }
         }

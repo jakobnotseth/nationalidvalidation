@@ -5,7 +5,7 @@ namespace NationalIdValidation
     /// <summary>
     /// Class for input validating Norwegian bank account number using CDV 11
     /// </summary>
-    public class NorwegianAccountNumber
+    public class NorwegianBankAccountNumber
     {
         /// <summary>
         /// Returns whether the string input was validated
@@ -22,7 +22,7 @@ namespace NationalIdValidation
         ///     Console.WriteLine("The account number validates");
         /// }
         /// </code></example>
-        public NorwegianAccountNumber(string accountNumberString)
+        public NorwegianBankAccountNumber(string accountNumberString)
         {
             IsValid = false;
             if (string.IsNullOrEmpty(accountNumberString)) return;
@@ -54,6 +54,12 @@ namespace NationalIdValidation
             var d9 = int.Parse(reg.Groups["d9"].Value); // digit 9
             var d10 = int.Parse(reg.Groups["d10"].Value); // digit 10
             var c1 = int.Parse(reg.Groups["c1"].Value); // control 1
+            if (d5 == 0 && d6 == 0)
+            {
+                // cannot validate account group 00
+                IsValid = true;
+                return;
+            }
             var r1 = ((d1 * 5) + (d2 * 4) + (d3 * 3) + (d4 * 2) + (d5 * 7) + (d6 * 6) + (d7 * 5) + (d8 * 4) + (d9 * 3) + (d10 * 2)) % 11; // result 1
             int s1;
             switch (r1)
