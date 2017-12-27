@@ -41,6 +41,7 @@
     <Compile Include="FinnishPersonalId.cs" />
     <Compile Include="Gender.cs" />
     <Compile Include="NhsNumber.cs" />
+    <Compile Include="NorwegianAccountNumber.cs" />
     <Compile Include="NorwegianCompanyId.cs" />
     <Compile Include="NorwegianPersonalId.cs" />
     <Compile Include="NorwegianPersonalIdType.cs" />
