@@ -275,7 +275,7 @@ namespace NationalIdValidation.Tests
         }
 
         [TestMethod]
-        public void ValidatesValidIds()
+        public void ValidatesValidNorwegianPersonalIds()
         {
             foreach (var id in ValidIdNumbers)
             {
@@ -285,7 +285,7 @@ namespace NationalIdValidation.Tests
         }
 
         [TestMethod]
-        public void InvalidatesInvalidIds()
+        public void InvalidatesInvalidNorwegianPersonalIds()
         {
             foreach (var id in InvalidIdNumbers)
             {
@@ -295,7 +295,7 @@ namespace NationalIdValidation.Tests
         }
 
         [TestMethod]
-        public void IdentifiesMaleIds()
+        public void IdentifiesNorwegianPersonalMaleIds()
         {
             foreach (var idObject in MaleIds.Select(id => new NorwegianPersonalId(id)))
             {
@@ -304,7 +304,7 @@ namespace NationalIdValidation.Tests
         }
 
         [TestMethod]
-        public void IdentifiesFemaleIds()
+        public void IdentifiesNorwegianPersonalFemaleIds()
         {
             foreach (var idObject in FemaleIds.Select(id => new NorwegianPersonalId(id)))
             {
@@ -313,7 +313,7 @@ namespace NationalIdValidation.Tests
         }
 
         [TestMethod]
-        public void IdentifiesBirthDate()
+        public void IdentifiesNorwegianPersonalBirthDate()
         {
             var birthDateTests = new Dictionary<string, DateTime>
             {
@@ -338,7 +338,7 @@ namespace NationalIdValidation.Tests
         }
 
         [TestMethod]
-        public void InvalidatesInvalidDatePart()
+        public void InvalidatesInvalidNorwegianPersonalDatePart()
         {
             var birthDateTests = new List<string> { "31021550089", "69548999065", "00000050515" };
             foreach (var dateTest in birthDateTests)
@@ -349,7 +349,7 @@ namespace NationalIdValidation.Tests
         }
 
         [TestMethod]
-        public void IdentifiesDNumber()
+        public void IdentifiesNorwegianPersonalDNumber()
         {
             var dNumbers = new List<string> {"58031320478"};
             foreach (var testId in dNumbers)
@@ -360,7 +360,7 @@ namespace NationalIdValidation.Tests
         }
 
         [TestMethod]
-        public void IdentifiesHNumber()
+        public void IdentifiesNorwegianPersonalHNumber()
         {
             var hNumbers = new List<string> {"18431320467"};
             foreach (var testId in hNumbers)

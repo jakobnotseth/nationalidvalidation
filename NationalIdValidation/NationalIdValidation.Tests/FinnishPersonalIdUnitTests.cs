@@ -57,7 +57,7 @@ namespace NationalIdValidation.Tests
         }
 
         [TestMethod]
-        public void ValidatesValidIds()
+        public void ValidatesValidFinnishPersonalIds()
         {
             foreach (var id in ValidIdNumbers)
             {
@@ -67,7 +67,7 @@ namespace NationalIdValidation.Tests
         }
 
         [TestMethod]
-        public void InvalidatesInvalidIds()
+        public void InvalidatesInvalidFinnishPersonalIds()
         {
             foreach (var id in InvalidIdNumbers)
             {
@@ -77,7 +77,7 @@ namespace NationalIdValidation.Tests
         }
 
         [TestMethod]
-        public void IdentifiesMaleIds()
+        public void IdentifiesFinnishPersonalMaleIds()
         {
             foreach (var idObject in MaleIds.Select(id => new FinnishPersonalId(id)))
             {
@@ -86,7 +86,7 @@ namespace NationalIdValidation.Tests
         }
 
         [TestMethod]
-        public void IdentifiesFemaleIds()
+        public void IdentifiesFinnishPersonalFemaleIds()
         {
             foreach (var idObject in FemaleIds.Select(id => new FinnishPersonalId(id)))
             {
@@ -95,7 +95,7 @@ namespace NationalIdValidation.Tests
         }
 
         [TestMethod]
-        public void IdentifiesBirthDate()
+        public void IdentifiesFinnishPersonalBirthDate()
         {
             var birthDateTests = new Dictionary<string, DateTime>
             {
@@ -114,7 +114,7 @@ namespace NationalIdValidation.Tests
         }
 
         [TestMethod]
-        public void InvalidatesInvalidDatePart()
+        public void InvalidatesFinnishPersonalInvalidDatePart()
         {
             var birthDateTests = new List<string> { "310280-3341", "000000+333A" };
             foreach (var dateTest in birthDateTests)

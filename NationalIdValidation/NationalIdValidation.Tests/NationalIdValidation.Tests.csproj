@@ -54,6 +54,7 @@
     <Compile Include="NorwegianPersonalIdUnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DanishPersonalIdUnitTests.cs" />
+    <Compile Include="NorwegianCompanyIdUnitTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NationalIdValidation\NationalIdValidation.csproj">

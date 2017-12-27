@@ -48,8 +48,6 @@ namespace NationalIdValidation
                 case 11:
                     control = 0;
                     break;
-                default:
-                    break;
             }
             if (c1 != control) return;
             IsValid = true;
