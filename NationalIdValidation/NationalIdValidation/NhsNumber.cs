@@ -26,7 +26,7 @@ namespace NationalIdValidation
         {
             IsValid = false;
             if (string.IsNullOrEmpty(nhsNumberString)) return;
-            var reg = Regex.Match(nhsNumberString, @"^(?<d1>\d)(?<d2>\d)(?<d3>\d)-?(?<d4>\d)(?<d5>\d)(?<d6>\d)-?(?<d7>\d)(?<d8>\d)(?<d9>\d)(?<c1>\d)$", RegexOptions.CultureInvariant | RegexOptions.Singleline);
+            var reg = Regex.Match(nhsNumberString, @"^(?<d1>\d)(?<d2>\d)(?<d3>\d)(\s|-)?(?<d4>\d)(?<d5>\d)(?<d6>\d)(\s|-)?(?<d7>\d)(?<d8>\d)(?<d9>\d)(?<c1>\d)$", RegexOptions.CultureInvariant | RegexOptions.Singleline);
             if (!reg.Success) return;
             var d1 = int.Parse(reg.Groups["d1"].Value); // digit 1
             var d2 = int.Parse(reg.Groups["d2"].Value); // digit 1
@@ -39,7 +39,7 @@ namespace NationalIdValidation
             var d9 = int.Parse(reg.Groups["d9"].Value); // digit 1
             var c1 = int.Parse(reg.Groups["c1"].Value); // control 1
             if (d1 == d2 && d2 == d3 && d3 == d4 && d4 == d5 && d5 == d6 && d6 == d7 && d7 == d8 && d8 == d9) return;
-            var remainder = ((d1*10) + (d2*9) + (d3*8) + (d4*7) + (d5*6) + (d6*5) + (d7*4) + (d8*3) + (d9*2)%11);
+            var remainder = ((d1*10) + (d2*9) + (d3*8) + (d4*7) + (d5*6) + (d6*5) + (d7*4) + (d8*3) + (d9*2))%11;
             var control = 11 - remainder;
             switch (control)
             {
