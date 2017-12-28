@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="dotMemory.Unit, Version=111.0.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.dotMemoryUnit.3.0.20171219.105559\lib\net35\dotMemory.Unit.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
@@ -51,6 +54,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="FinnishPersonalIdUnitTests.cs" />
+    <Compile Include="NorwegianCustomerIdUnitTests.cs" />
     <Compile Include="NorwegianPersonalIdUnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DanishPersonalIdUnitTests.cs" />
@@ -62,6 +66,9 @@
       <Project>{4a405cde-04eb-478f-a5f8-e07dfc0fceea}</Project>
       <Name>NationalIdValidation</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

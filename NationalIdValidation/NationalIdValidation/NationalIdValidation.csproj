@@ -43,6 +43,7 @@
     <Compile Include="NhsNumber.cs" />
     <Compile Include="NorwegianBankAccountNumber.cs" />
     <Compile Include="NorwegianCompanyId.cs" />
+    <Compile Include="NorwegianCustomerId.cs" />
     <Compile Include="NorwegianPersonalId.cs" />
     <Compile Include="NorwegianPersonalIdType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
