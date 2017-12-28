@@ -60,6 +60,7 @@
     <Compile Include="DanishPersonalIdUnitTests.cs" />
     <Compile Include="NorwegianCompanyIdUnitTests.cs" />
     <Compile Include="NorwegianBankAccountNumberUnitTests.cs" />
+    <Compile Include="SwedishPersonalIdUnitTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NationalIdValidation\NationalIdValidation.csproj">

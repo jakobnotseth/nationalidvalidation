@@ -49,12 +49,12 @@ namespace NationalIdValidation
             SwedishPersonalIdType = SwedishPersonalIdType.Unknown;
             if (string.IsNullOrEmpty(swedishIdString)) return;
             var reg = Regex.Match(swedishIdString,
-                @"^(?<y3>[0-9])(?<y4>[0-9])(?<m1>[0-3])(?<m2>[0-9])(?<d1>[0-9])(?<d2>[0-9])(?<divider>[+-])(?<i1>\d)(?<i2>\d)(?<i3>\d)(?<c1>\d)$",
+                @"^(?<y3>[0-9])(?<y4>[0-9])(?<m1>[0-9])(?<m2>[0-9])(?<d1>[0-9])(?<d2>[0-9])(?<divider>[+-])(?<i1>\d)(?<i2>\d)(?<i3>\d)(?<c1>\d)$",
                 RegexOptions.CultureInvariant | RegexOptions.Singleline);
             // ^ --> beginning of line
             // (?<y3>[0-9]) --> third year digit
             // (?<y4>[0-9]) --> fourth year digit
-            // (?<m1>[0-3]) --> first month digit of months 01-12 (orgno 21-32)
+            // (?<m1>[0-9]) --> first month digit of months 01-12 (orgno 21-32)
             // (?<m2>[0-9]) --> second month digit of months 01-12
             // (?<d1>[0-9]) --> first day digit of days 01-31 (co-no 61-91)
             // (?<d2>[0-9]) --> second day digit of days 01-31
@@ -128,7 +128,8 @@ namespace NationalIdValidation
             else if (m1 >= 2)
             {
                 SwedishPersonalIdType = SwedishPersonalIdType.Organisationumber;
-                m1 -= 2;
+                IsValid = true;
+                return;
             }
             else
                 SwedishPersonalIdType = SwedishPersonalIdType.BirthNumber;
@@ -138,7 +139,7 @@ namespace NationalIdValidation
             var thisYear = DateTime.Now.Year;
             if (divider == "+")
             {
-                // person is more than  or equal to 100 years
+                // person is more than or equal to 100 years
                 if (y > int.Parse(thisYear.ToString(CultureInfo.InvariantCulture).Substring(2, 2)))
                 {
                     cent = int.Parse(thisYear.ToString(CultureInfo.InvariantCulture).Substring(0, 2)) - 2;
