@@ -351,7 +351,7 @@ namespace NationalIdValidation.Tests
         [TestMethod]
         public void IdentifiesNorwegianPersonalDNumber()
         {
-            var dNumbers = new List<string> {"58031320478"};
+            var dNumbers = new List<string> {"58031320478", "70019950032"};
             foreach (var testId in dNumbers)
             {
                 var idObject = new NorwegianPersonalId(testId);
