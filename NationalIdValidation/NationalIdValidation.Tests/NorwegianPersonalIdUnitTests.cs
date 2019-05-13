@@ -137,7 +137,9 @@ namespace NationalIdValidation.Tests
                 "400000-22288",
                 "004000-22288",
                 "000000-00000\0",
+                // ReSharper disable once StringLiteralTypo
                 "abcdefghijk",
+                // ReSharper disable once StringLiteralTypo
                 "abcdef51843",
                 "01059422222",
                 "01.05.94.51843",

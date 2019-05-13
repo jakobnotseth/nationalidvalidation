@@ -22,7 +22,7 @@ namespace NationalIdValidation
         /// </summary>
         public DateTime BirthDate { get; }
         /// <summary>
-        /// In case of a validated input, returns whether the id is a birth number, coordination number or organisationnumber, otherwise unknown
+        /// In case of a validated input, returns whether the id is a birth number, coordination number or organization number, otherwise unknown
         /// </summary>
         public SwedishPersonalIdType SwedishPersonalIdType { get; }
 
@@ -54,7 +54,7 @@ namespace NationalIdValidation
             // ^ --> beginning of line
             // (?<y3>[0-9]) --> third year digit
             // (?<y4>[0-9]) --> fourth year digit
-            // (?<m1>[0-9]) --> first month digit of months 01-12 (orgno 21-32)
+            // (?<m1>[0-9]) --> first month digit of months 01-12 (organization no 21-32)
             // (?<m2>[0-9]) --> second month digit of months 01-12
             // (?<d1>[0-9]) --> first day digit of days 01-31 (co-no 61-91)
             // (?<d2>[0-9]) --> second day digit of days 01-31
@@ -127,7 +127,7 @@ namespace NationalIdValidation
             }
             else if (m1 >= 2)
             {
-                SwedishPersonalIdType = SwedishPersonalIdType.Organisationumber;
+                SwedishPersonalIdType = SwedishPersonalIdType.OrganizationNumber;
                 IsValid = true;
                 return;
             }
@@ -163,9 +163,8 @@ namespace NationalIdValidation
             }
             y += int.Parse(cent.ToString(CultureInfo.InvariantCulture) + "00");
             // The date should parse to a valid DateTime object
-            DateTime bDate;
             if (!DateTime.TryParseExact($"{y}{m1}{m2}{d1}{d2}", "yyyyMMdd",
-                CultureInfo.InvariantCulture, DateTimeStyles.None, out bDate)) return;
+                CultureInfo.InvariantCulture, DateTimeStyles.None, out var bDate)) return;
             BirthDate = bDate;
             IsValid = true;
         }

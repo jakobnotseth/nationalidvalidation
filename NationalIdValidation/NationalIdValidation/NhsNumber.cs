@@ -3,7 +3,7 @@
 namespace NationalIdValidation
 {
     /// <summary>
-    /// Class for input validating NHS numbers
+    /// Class for input validating NHS numbers and CHI numbers
     /// </summary>
     public class NhsNumber
     {
@@ -11,6 +11,19 @@ namespace NationalIdValidation
         /// Returns whether the string input was validated
         /// </summary>
         public bool IsValid { get; }
+
+        /// <summary>
+        /// The numbers used also gives where this NHS/CHI number is generated from as NHS coordinates the numbering system across Great Britain
+        /// This includes by the time of writing (13.05.2019)
+        /// - England, Wales and Isle Of Man (400 000 0000 to 499 999 9999 and 600 000 0000 to 708 800 0019)
+        /// - Northern Ireland (320 000 0010 to 399 999 9999)
+        /// - Scotland (010 101 0000 to 311 299 9999)
+        /// </summary>
+        /// <remarks>
+        /// If numbers are discovered outside of these ranges, it will no be invalidated as this information may quickly change
+        /// In case you want to invalidate numbers outside these ranges, you should also verify that Location is not Unknown
+        /// </remarks>
+        public NhsNumberLocation Location { get; }
 
         /// <summary>
         /// Creates a NhsNumber object
@@ -24,6 +37,7 @@ namespace NationalIdValidation
         /// </code></example>
         public NhsNumber(string nhsNumberString)
         {
+            Location = NhsNumberLocation.Unknown;
             IsValid = false;
             if (string.IsNullOrEmpty(nhsNumberString)) return;
             var reg = Regex.Match(nhsNumberString, @"^(?<d1>\d)(?<d2>\d)(?<d3>\d)(\s|-)?(?<d4>\d)(?<d5>\d)(?<d6>\d)(\s|-)?(?<d7>\d)(?<d8>\d)(?<d9>\d)(?<c1>\d)$", RegexOptions.CultureInvariant | RegexOptions.Singleline);
@@ -50,6 +64,19 @@ namespace NationalIdValidation
                     break;
             }
             if (c1 != control) return;
+            var numberResult = long.Parse(d1.ToString() + d2.ToString() + d3.ToString() + d4.ToString() + d5.ToString() + d6.ToString() + d7.ToString() + d8.ToString() + d9.ToString() + c1.ToString());
+            if (numberResult >= 4000000000 && numberResult <= 4999999999 || numberResult >= 6000000000 && numberResult <= 7088000019)
+            {
+                Location = NhsNumberLocation.EnglandWalesAndIsleOfMan;
+            }
+            else if (numberResult >= 3200000010 && numberResult <= 3999999999)
+            {
+                Location = NhsNumberLocation.NorthernIreland;
+            }
+            else if (numberResult >= 0101010000 && numberResult <= 3112999999)
+            {
+                Location = NhsNumberLocation.Scotland;
+            }
             IsValid = true;
         }
     }

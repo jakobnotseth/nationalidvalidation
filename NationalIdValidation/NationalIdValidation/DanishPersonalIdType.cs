@@ -4,6 +4,6 @@
     {
         Unknown,
         BirthNumber,
-        Replacementnumber,
+        ReplacementNumber,
     }
 }

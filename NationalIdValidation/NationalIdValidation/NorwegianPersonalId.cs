@@ -91,12 +91,18 @@ namespace NationalIdValidation
             if (s1 != c1 || s2 != c2) return;
             // The kind of number can be defined by the presence of a added 4 to either first digit of month or day, otherwise birth number
             // In the odd case someone tries entering a combination of d and h number, the date will not be validated below
-            if (d1 >= 4)
+            if (d1 >= 4 && d1 <= 7)
             {
                 NorwegianPersonalIdType = NorwegianPersonalIdType.DNumber;
                 d1 -= 4;
             }
-            else if (m1 >= 4)
+            else if (d1 >= 8)
+            {
+                NorwegianPersonalIdType = NorwegianPersonalIdType.FHNumber;
+                IsValid = true;
+                return; // no birthdate or gender can be extrapolated from fh-numbers
+            }
+            else if (m1 >= 4 && m1 <= 5)
             {
                 NorwegianPersonalIdType = NorwegianPersonalIdType.HNumber;
                 m1 -= 4;
@@ -126,9 +132,8 @@ namespace NationalIdValidation
                 y += 2000;
             }
             // The date should parse to a valid DateTime object
-            DateTime bDate;
             if (!DateTime.TryParseExact($"{y}{m1}{m2}{d1}{d2}", "yyyyMMdd",
-                CultureInfo.InvariantCulture, DateTimeStyles.None, out bDate)) return;
+                CultureInfo.InvariantCulture, DateTimeStyles.None, out var bDate)) return;
             BirthDate = bDate;
             IsValid = true;
         }

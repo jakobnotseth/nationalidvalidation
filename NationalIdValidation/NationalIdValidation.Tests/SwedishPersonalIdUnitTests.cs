@@ -38,6 +38,7 @@ namespace NationalIdValidation.Tests
                 "400000-22288",
                 "004000-22288",
                 "000000-00000\0",
+                // ReSharper disable once StringLiteralTypo
                 "abcdefghijk",
                 "01.05.94.51843",
                 "010594.51843",
@@ -120,8 +121,8 @@ namespace NationalIdValidation.Tests
         [TestMethod]
         public void IdentifiesSwedishPersonalCoordinationNumber()
         {
-            var coordNumbers = new List<string> { "811278-9873" };
-            foreach (var testId in coordNumbers)
+            var coordinationNumbers = new List<string> { "811278-9873" };
+            foreach (var testId in coordinationNumbers)
             {
                 var idObject = new SwedishPersonalId(testId);
                 Assert.AreEqual(SwedishPersonalIdType.CoordinationNumber, idObject.SwedishPersonalIdType);
@@ -135,7 +136,7 @@ namespace NationalIdValidation.Tests
             foreach (var testId in orgNumbers)
             {
                 var idObject = new SwedishPersonalId(testId);
-                Assert.AreEqual(SwedishPersonalIdType.Organisationumber, idObject.SwedishPersonalIdType);
+                Assert.AreEqual(SwedishPersonalIdType.OrganizationNumber, idObject.SwedishPersonalIdType);
             }
         }
     }

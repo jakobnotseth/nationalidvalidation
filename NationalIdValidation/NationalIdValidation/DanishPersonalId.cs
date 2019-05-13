@@ -28,7 +28,7 @@ namespace NationalIdValidation
         /// <summary>
         /// Returns whether the id is valid according to the old modulus rule
         /// </summary>
-        public bool IsModuloValid { get; set; }
+        public bool IsModuloValid { get; }
 
         /// <summary>
         /// Creates a DanishPersonalId object
@@ -71,7 +71,7 @@ namespace NationalIdValidation
             // The kind of number can be defined by the presence of a added 6 to first digit of day, otherwise birth number
             if (d1 >= 6)
             {
-                DanishPersonalIdType = DanishPersonalIdType.Replacementnumber;
+                DanishPersonalIdType = DanishPersonalIdType.ReplacementNumber;
                 d1 -= 6;
             }
             else
@@ -94,7 +94,7 @@ namespace NationalIdValidation
             }
             // The date should parse to a valid DateTime object
             if (!DateTime.TryParseExact($"{y}{m1}{m2}{d1}{d2}", "yyyyMMdd",
-                CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime bDate)) return;
+                CultureInfo.InvariantCulture, DateTimeStyles.None, out var bDate)) return;
             BirthDate = bDate;
             IsValid = true;
             // CPR numbers can no longer be modulo 11 validated!

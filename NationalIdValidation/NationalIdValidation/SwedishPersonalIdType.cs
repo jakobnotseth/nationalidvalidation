@@ -6,6 +6,6 @@
         BirthNumber,
         CoordinationNumber,
         // Added for completeness
-        Organisationumber,
+        OrganizationNumber,
     }
 }

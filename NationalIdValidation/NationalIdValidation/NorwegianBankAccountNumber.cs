@@ -37,9 +37,9 @@ namespace NationalIdValidation
             // (?<d6>\d) --> sixth digit
             // ( |.)? --> optional divider between second and third group of digits
             // (?<d7>\d) --> seventh digit
-            // (?<d8>\d) --> eigth digit
-            // (?<d9>\d) --> eigth digit
-            // (?<d10>\d) --> eigth digit
+            // (?<d8>\d) --> eighth digit
+            // (?<d9>\d) --> ninth digit
+            // (?<d10>\d) --> tenth digit
             // (?<c1>\d) --> control digit
             // $ --> end of line
             if (!reg.Success) return;

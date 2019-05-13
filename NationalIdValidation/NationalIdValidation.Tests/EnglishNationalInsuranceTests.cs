@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace NationalIdValidation.Tests
 {
     [TestClass]
-    public class NorwegianBankAccountNumberUnitTests
+    public class EnglishNationalInsuranceTests
     {
         private List<string> ValidIdNumbers { get; set; }
         private List<string> InvalidIdNumbers { get; set; }
@@ -14,12 +15,7 @@ namespace NationalIdValidation.Tests
         {
             ValidIdNumbers = new List<string>
             {
-                "12341056789",
-                "1234.10.56789",
-                "1234 10 56789",
-                "3705 05 02962",
-                "37050502962",
-                "3705.05.02962"
+                "AB 12 34 56 C",
             };
             InvalidIdNumbers = new List<string>
             {
@@ -28,30 +24,42 @@ namespace NationalIdValidation.Tests
                 "\0",
                 ":",
                 "0",
-                "0000\0",
-                "0000-",
-                "0000\u00000",
-                "0008\0",
-                "1234.10.56788"
+                "DA 00 00 00 \0",
+                "FA 00 00 00-",
+                "IA 00 00 00\u0100",
+                "QA 00 00 00 A\0",
+                "QQ 12 34 56 C",
+                "BO 00 00 10 A",
             };
         }
 
         [TestMethod]
-        public void ValidatesValidNorwegianBankAccountNumbers()
+        public void ValidatesValidNationalInsuranceIds()
         {
             foreach (var id in ValidIdNumbers)
             {
-                var idObject = new NorwegianBankAccountNumber(id);
+                var idObject = new EnglishNationalInsuranceId(id);
                 Assert.IsTrue(idObject.IsValid, $"A valid mathematically number does not validate: {id}");
             }
         }
 
         [TestMethod]
-        public void InvalidatesInvalidNorwegianBankAccountNumbers()
+        public void ValidatesValidBenefitsDay()
+        {
+            foreach (var id in ValidIdNumbers)
+            {
+                var idObject = new EnglishNationalInsuranceId(id);
+                Assert.IsTrue(idObject.IsValid, $"A valid mathematically number does not validate: {id}");
+                Assert.AreEqual(DayOfWeek.Wednesday, idObject.BenefitsDay);
+            }
+        }
+
+        [TestMethod]
+        public void InvalidatesInvalidNationalInsuranceIds()
         {
             foreach (var id in InvalidIdNumbers)
             {
-                var idObject = new NorwegianBankAccountNumber(id);
+                var idObject = new EnglishNationalInsuranceId(id);
                 Assert.IsFalse(idObject.IsValid, $"An invalid mathematically number does validate: {id}");
             }
         }

@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace NationalIdValidation
 {
+    // ReSharper disable CommentTypo
     /// <summary>
     /// Class for input validating Finnish personal ID-numbers (Finnish: Henkilötunnus (HETU), Swedish: Personbeteckning)
     /// </summary>
@@ -76,11 +77,11 @@ namespace NationalIdValidation
                     return;
             }
             // The date should parse to a valid DateTime object
-            DateTime bDate;
             if (!DateTime.TryParseExact($"{y}{m1}{m2}{d1}{d2}", "yyyyMMdd",
-                CultureInfo.InvariantCulture, DateTimeStyles.None, out bDate)) return;
+                CultureInfo.InvariantCulture, DateTimeStyles.None, out var bDate)) return;
             BirthDate = bDate;
             IsValid = true;
         }
     }
+    // ReSharper enable CommentTypo
 }

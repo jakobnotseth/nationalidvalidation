@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace NationalIdValidation.Tests
@@ -50,6 +49,20 @@ namespace NationalIdValidation.Tests
             {
                 var idObject = new NorwegianCompanyId(id);
                 Assert.IsTrue(idObject.IsValid, $"A valid mathematically number does not validate: {id}");
+            }
+        }
+
+        [TestMethod]
+        public void ValidatesVatRegisteredWhereGiven()
+        {
+            foreach (var id in ValidIdNumbers)
+            {
+                var idObject = new NorwegianCompanyId(id);
+                var endsWithMva = id.EndsWith("MVA");
+                if(endsWithMva)
+                    Assert.IsTrue(idObject.VatRegistered, $"VatRegistered not detected: {id}");
+                else
+                    Assert.IsFalse(idObject.VatRegistered, $"VatRegistered detected: {id}");
             }
         }
 

@@ -121,13 +121,13 @@ namespace NationalIdValidation.Tests
         }
 
         [TestMethod]
-        public void IdentifiesDanishPersonalReplacementnumber()
+        public void IdentifiesDanishPersonalReplacementNumber()
         {
             var replacementNumbers = new List<string> { "9012753002", "6808920287" };
             foreach (var testId in replacementNumbers)
             {
                 var idObject = new DanishPersonalId(testId);
-                Assert.AreEqual(DanishPersonalIdType.Replacementnumber, idObject.DanishPersonalIdType);
+                Assert.AreEqual(DanishPersonalIdType.ReplacementNumber, idObject.DanishPersonalIdType);
             }
         }
         [TestMethod]

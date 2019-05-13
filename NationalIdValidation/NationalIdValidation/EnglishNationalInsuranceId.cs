@@ -13,8 +13,12 @@ namespace NationalIdValidation
         /// </summary>
         public bool IsValid { get; }
 
+        /// <summary>
+        /// Returns the day of week this person is entitled to benefits
+        /// </summary>
         public DayOfWeek BenefitsDay { get; }
 
+        // ReSharper disable CommentTypo
         /// <summary>
         /// Creates a EnglishNationalInsuranceId object
         /// </summary>
@@ -45,5 +49,6 @@ namespace NationalIdValidation
                 BenefitsDay = DayOfWeek.Friday;
             IsValid = true;
         }
+        // ReSharper enable CommentTypo
     }
 }

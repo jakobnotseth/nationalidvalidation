@@ -3,7 +3,7 @@
 namespace NationalIdValidation
 {
     /// <summary>
-    /// Class for input validating Norwegian copmany ID-numbers
+    /// Class for input validating Norwegian company ID-numbers
     /// </summary>
     public class NorwegianCompanyId
     {
@@ -18,7 +18,7 @@ namespace NationalIdValidation
         /// <remarks>
         /// A company might still be tax registered even if not specified in the company ID string
         /// </remarks>
-        public bool VATRegistered { get; }
+        public bool VatRegistered { get; }
 
         /// <summary>
         /// Creates a NorwegianCompanyId object
@@ -33,7 +33,7 @@ namespace NationalIdValidation
         public NorwegianCompanyId(string companyIdString)
         {
             IsValid = false;
-            VATRegistered = false;
+            VatRegistered = false;
             if (string.IsNullOrEmpty(companyIdString)) return;
             var reg = Regex.Match(companyIdString, @"^(?<ISO>\w{2})?(\s|-)?(?<d1>\d)(?<d2>\d)(?<d3>\d)(\s|-)?(?<d4>\d)(?<d5>\d)(?<d6>\d)(\s|-)?(?<d7>\d)(?<d8>\d)(?<c1>\d)(\s|-)?(?<VAT>MVA)?$", RegexOptions.CultureInvariant | RegexOptions.Singleline);
             // ^ --> beginning of line
@@ -48,7 +48,7 @@ namespace NationalIdValidation
             // (?<d6>\d) --> sixth digit
             // (\s|-)? --> optional divider between second and third group of three digits
             // (?<d7>\d) --> seventh digit
-            // (?<d8>\d) --> eigth digit
+            // (?<d8>\d) --> eighth digit
             // (?<c1>\d) --> control digit
             // (\s|-)? --> optional divider between third group of three digits and tax registration
             // (?<VAT>MVA)? --> optional taxation registration
@@ -85,7 +85,7 @@ namespace NationalIdValidation
             if (s1 != c1) return;
             IsValid = true;
             if (!reg.Groups["VAT"].Success) return;
-            if (reg.Groups["VAT"].Value == "MVA") VATRegistered = true;
+            if (reg.Groups["VAT"].Value == "MVA") VatRegistered = true;
         }
     }
 }
