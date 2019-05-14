@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace NationalIdValidation.Tests
 {
     [TestClass]
-    public class EnglishNationalInsuranceTests
+    public class EnglishNationalInsuranceUnitTests
     {
         private List<string> ValidIdNumbers { get; set; }
         private List<string> InvalidIdNumbers { get; set; }
@@ -15,7 +15,7 @@ namespace NationalIdValidation.Tests
         {
             ValidIdNumbers = new List<string>
             {
-                "AB 12 34 56 C",
+                "AB 12 34 56 C"
             };
             InvalidIdNumbers = new List<string>
             {
@@ -29,7 +29,7 @@ namespace NationalIdValidation.Tests
                 "IA 00 00 00\u0100",
                 "QA 00 00 00 A\0",
                 "QQ 12 34 56 C",
-                "BO 00 00 10 A",
+                "BO 00 00 10 A"
             };
         }
 

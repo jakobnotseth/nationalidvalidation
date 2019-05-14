@@ -52,7 +52,7 @@ namespace NationalIdValidation
         {
             IsValid = false;
             IsModuloValid = false;
-            Gender = Gender.Unknown;
+            Gender = Gender.NotKnown;
             BirthDate = DateTime.MinValue;
             DanishPersonalIdType = DanishPersonalIdType.Unknown;
             if (string.IsNullOrEmpty(danishIdString)) return;
@@ -80,18 +80,12 @@ namespace NationalIdValidation
             Gender = s4 % 2 == 0 ? Gender.Female : Gender.Male;
             var i = int.Parse($"{s1}{s2}{s3}{s4}");
             var y = int.Parse($"{y3}{y4}");
-            if (i <= 3999 || (i <= 4999 && y >= 37) || (i >= 9000 && i <= 9999 && y >= 37))
-            {
+            if (i <= 3999 || i <= 4999 && y >= 37 || i >= 9000 && i <= 9999 && y >= 37)
                 y += 1900;
-            }
             else if (i >= 5000 && i <= 8999 && y >= 58)
-            {
                 y += 1800;
-            }
             else
-            {
                 y += 2000;
-            }
             // The date should parse to a valid DateTime object
             if (!DateTime.TryParseExact($"{y}{m1}{m2}{d1}{d2}", "yyyyMMdd",
                 CultureInfo.InvariantCulture, DateTimeStyles.None, out var bDate)) return;
@@ -100,7 +94,7 @@ namespace NationalIdValidation
             // CPR numbers can no longer be modulo 11 validated!
             // Old modulo function:
             // if (((d1 * 4) + (d2 * 3) + (m1 * 2) + (m2 * 7) + (y3 * 6) + (y4 * 5) + (s1 * 4) + (s2 * 3) + (s3 * 2) + (s4)) % 11 == 0)
-            var r1 = ((d1 * 4) + (d2 * 3) + (m1 * 2) + (m2 * 7) + (y3 * 6) + (y4 * 5) + (s1 * 4) + (s2 * 3) + (s3 * 2)) % 11; // result 1
+            var r1 = (d1*4 + d2*3 + m1*2 + m2*7 + y3*6 + y4*5 + s1*4 + s2*3 + s3*2)%11; // result 1
             if (s4 == 11 - r1)
             {
                 IsModuloValid = true;

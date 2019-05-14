@@ -60,7 +60,7 @@ namespace NationalIdValidation
                 IsValid = true;
                 return;
             }
-            var r1 = ((d1 * 5) + (d2 * 4) + (d3 * 3) + (d4 * 2) + (d5 * 7) + (d6 * 6) + (d7 * 5) + (d8 * 4) + (d9 * 3) + (d10 * 2)) % 11; // result 1
+            var r1 = (d1*5 + d2*4 + d3*3 + d4*2 + d5*7 + d6*6 + d7*5 + d8*4 + d9*3 + d10*2)%11; // result 1
             int s1;
             switch (r1)
             {

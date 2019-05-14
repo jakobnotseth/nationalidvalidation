@@ -44,7 +44,7 @@ namespace NationalIdValidation
         public SwedishPersonalId(string swedishIdString)
         {
             IsValid = false;
-            Gender = Gender.Unknown;
+            Gender = Gender.NotKnown;
             BirthDate = DateTime.MinValue;
             SwedishPersonalIdType = SwedishPersonalIdType.Unknown;
             if (string.IsNullOrEmpty(swedishIdString)) return;
@@ -128,6 +128,7 @@ namespace NationalIdValidation
             else if (m1 >= 2)
             {
                 SwedishPersonalIdType = SwedishPersonalIdType.OrganizationNumber;
+                Gender = Gender.NotApplicable;
                 IsValid = true;
                 return;
             }

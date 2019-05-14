@@ -21,6 +21,42 @@ namespace NationalIdValidation
         /// Creates a NorwegianCustomerId object
         /// </summary>
         /// <param name="kidString">Any Norwegian KID (Customer ID)</param>
+        /// <example><code>
+        /// var id = new NorwegianCustomerId("123456782");
+        /// if (id.IsValid) {
+        ///     Console.WriteLine("The KID validates using " + id.ValidationRoutine.ToString());
+        /// }
+        /// </code></example>
+        /// <example><code>
+        /// var id = new NorwegianCustomerId("123456785");
+        /// if (id.IsValid) {
+        ///     Console.WriteLine("The KID validates using " + id.ValidationRoutine.ToString());
+        /// }
+        /// </code></example>
+        public NorwegianCustomerId(string kidString)
+        {
+            ValidationRoutine = CustomerIdValidationRoutine.Modulus10;
+            IsValid = false;
+            if (string.IsNullOrEmpty(kidString)) return;
+            var regMod10 = Regex.Match(kidString, @"^\d{2,25}$", RegexOptions.CultureInvariant | RegexOptions.Singleline);
+            var regMod11 = Regex.Match(kidString, @"^\d{2,24}(\d|-)?$", RegexOptions.CultureInvariant | RegexOptions.Singleline);
+            if (!regMod10.Success && !regMod11.Success) return;
+            if (regMod10.Success && IsValidModulus10(kidString))
+            {
+                ValidationRoutine = CustomerIdValidationRoutine.Modulus10;
+                IsValid = true;
+            }
+            else if (regMod11.Success && IsValidModulus11(kidString))
+            {
+                ValidationRoutine = CustomerIdValidationRoutine.Modulus11;
+                IsValid = true;
+            }
+        }
+
+        /// <summary>
+        /// Creates a NorwegianCustomerId object
+        /// </summary>
+        /// <param name="kidString">Any Norwegian KID (Customer ID)</param>
         /// <param name="validationRoutine">Whether KID should be checked using Modulo 10 or Modulo 11 routine</param>
         /// <example><code>
         /// var id = new NorwegianCustomerId("123456782", CustomerIdValidationRoutine.Modulo10);
@@ -39,18 +75,23 @@ namespace NationalIdValidation
             IsValid = false;
             ValidationRoutine = validationRoutine;
             if (string.IsNullOrEmpty(kidString)) return;
-            if (validationRoutine == CustomerIdValidationRoutine.Modulus10)
+            switch (validationRoutine)
             {
-                var reg = Regex.Match(kidString, @"^\d{2,25}$", RegexOptions.CultureInvariant | RegexOptions.Singleline);
-                if (!reg.Success) return;
+                case CustomerIdValidationRoutine.Modulus10:
+                {
+                    var reg = Regex.Match(kidString, @"^\d{2,25}$", RegexOptions.CultureInvariant | RegexOptions.Singleline);
+                    if (!reg.Success) return;
+                    break;
+                }
+                case CustomerIdValidationRoutine.Modulus11:
+                {
+                    var reg = Regex.Match(kidString, @"^\d{2,24}(\d|-)?$", RegexOptions.CultureInvariant | RegexOptions.Singleline);
+                    if (!reg.Success) return;
+                    break;
+                }
+                default:
+                    return;
             }
-            else if (validationRoutine == CustomerIdValidationRoutine.Modulus11)
-            {
-                var reg = Regex.Match(kidString, @"^\d{2,24}(\d|-)?$", RegexOptions.CultureInvariant | RegexOptions.Singleline);
-                if (!reg.Success) return;
-            }
-            else
-                return;
             switch (validationRoutine)
             {
                     case CustomerIdValidationRoutine.Modulus10:
@@ -72,7 +113,7 @@ namespace NationalIdValidation
             var currentMultiplier = 2;
             for (var i = length - 2; i >= 0; i--)
             {
-                var thisProduct = (int.Parse(kidString.Substring(i, 1)) * currentMultiplier);
+                var thisProduct = int.Parse(kidString.Substring(i, 1)) * currentMultiplier;
                 var digits = thisProduct.ToString();
                 for (var j = 0; j <= digits.Length -1; j++)
                 {
@@ -102,7 +143,7 @@ namespace NationalIdValidation
             var currentMultiplier = 2;
             for (var i = length - 2; i >= 0; i--)
             {
-                product += (int.Parse(kidString.Substring(i, 1)) * currentMultiplier);
+                product += int.Parse(kidString.Substring(i, 1)) * currentMultiplier;
                 currentMultiplier++;
                 if (currentMultiplier == 8) currentMultiplier = 2;
             }
@@ -124,9 +165,19 @@ namespace NationalIdValidation
         }
     }
 
+    /// <summary>
+    /// Norwegian customer id KID is using either Modulus 10 or 11 based on a setting on the bank account
+    /// This keeps track of which modulo that validates, and let's you confirm the correct modulo setting
+    /// </summary>
     public enum CustomerIdValidationRoutine
     {
+        /// <summary>
+        /// This was validated using Modulus 10
+        /// </summary>
         Modulus10,
+        /// <summary>
+        /// This was validated using Modulus 11
+        /// </summary>
         Modulus11
     }
 }

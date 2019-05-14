@@ -18,18 +18,18 @@ namespace NationalIdValidation.Tests
             ScotlandNumbers = new List<string>
             {
                 "185-898-7857",
-                "245 616 7724",
+                "245 616 7724"
             };
             NorthernIrelandNumbers = new List<string>
             {
-                "3200000015",
+                "3200000015"
             };
             EnglandWalesIsleOfManNumbers = new List<string>
             {
                 "401 023 2137",
                 "626 826 0147",
                 "482 704 1768",
-                "660 514 0206",
+                "660 514 0206"
             };
             ValidIdNumbers = new List<string>
             {
@@ -39,7 +39,7 @@ namespace NationalIdValidation.Tests
                 "185-898-7857",
                 "245 616 7724",
                 "482 704 1768",
-                "660 514 0206",
+                "660 514 0206"
             };
             InvalidIdNumbers = new List<string>
             {
@@ -52,7 +52,7 @@ namespace NationalIdValidation.Tests
                 "000-",
                 "000\u00000",
                 "008\0",
-                "401 023 2138",
+                "401 023 2138"
             };
         }
 

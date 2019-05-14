@@ -38,11 +38,11 @@ namespace NationalIdValidation.Tests
             };
             MaleIds = new List<string>
             {
-                "211062-5629",
+                "211062-5629"
             };
             FemaleIds = new List<string>
             {
-                "211062-5628",
+                "211062-5628"
             };
         }
 
@@ -102,10 +102,10 @@ namespace NationalIdValidation.Tests
                 {"2903655341", new DateTime(1865, 03, 29)},
                 {"2312135782", new DateTime(2013, 12, 23)}
             };
-            foreach (var id in birthDateTests)
+            foreach (var (key, birthDate) in birthDateTests)
             {
-                var idObject = new DanishPersonalId(id.Key);
-                Assert.AreEqual(id.Value, idObject.BirthDate);
+                var idObject = new DanishPersonalId(key);
+                Assert.AreEqual(birthDate, idObject.BirthDate);
             }
         }
 

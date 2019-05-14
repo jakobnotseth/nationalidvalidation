@@ -208,7 +208,7 @@ namespace NationalIdValidation.Tests
                 "040386-03367",
                 "141213-10180",
                 "150305-66979",
-                "050939-33518",
+                "050939-33518"
             };
             FemaleIds = new List<string>
             {
@@ -332,10 +332,10 @@ namespace NationalIdValidation.Tests
                 {"29036553411", new DateTime(1865, 03, 29)},
                 {"23121357828", new DateTime(2013, 12, 23)}
             };
-            foreach (var id in birthDateTests)
+            foreach (var (key, birthDate) in birthDateTests)
             {
-                var idObject = new NorwegianPersonalId(id.Key);
-                Assert.AreEqual(id.Value, idObject.BirthDate);
+                var idObject = new NorwegianPersonalId(key);
+                Assert.AreEqual(birthDate, idObject.BirthDate);
             }
         }
 

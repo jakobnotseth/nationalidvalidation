@@ -13,10 +13,25 @@
     /// </remarks>
     public enum NorwegianPersonalIdType
     {
+        /// <summary>
+        /// Unknown
+        /// </summary>
         Unknown,
+        /// <summary>
+        /// BirthNumber is an official Norwegian identity
+        /// </summary>
         BirthNumber,
+        /// <summary>
+        /// DNumber is an official Norwegian identity for immigrants and foreign tax payers in Norway
+        /// </summary>
         DNumber,
+        /// <summary>
+        /// HNumber is a temporary identity number used in healthcare, invalid without information about the issuing company
+        /// </summary>
         HNumber,
+        /// <summary>
+        /// FHNumber is an officially reserved number for healthcare on a unknown patient or foreign national without other identification methods
+        /// </summary>
         // ReSharper disable once InconsistentNaming
         FHNumber
     }

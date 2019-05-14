@@ -68,7 +68,7 @@ namespace NationalIdValidation
             var d7 = int.Parse(reg.Groups["d7"].Value); // digit 7
             var d8 = int.Parse(reg.Groups["d8"].Value); // digit 8
             var c1 = int.Parse(reg.Groups["c1"].Value); // control 1
-            var r1 = ((d1 * 3) + (d2 * 2) + (d3 * 7) + (d4 * 6) + (d5 * 5) + (d6 * 4) + (d7 * 3) + (d8 * 2)) % 11; // result 1
+            var r1 = (d1*3 + d2*2 + d3*7 + d4*6 + d5*5 + d6*4 + d7*3 + d8*2)%11; // result 1
             int s1;
             switch (r1)
             {

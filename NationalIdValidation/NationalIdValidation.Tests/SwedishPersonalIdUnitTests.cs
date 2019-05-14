@@ -21,7 +21,7 @@ namespace NationalIdValidation.Tests
         {
             ValidIdNumbers = new List<string>
             {
-                "811218-9876",
+                "811218-9876"
             };
             InvalidIdNumbers = new List<string>
             {
@@ -42,15 +42,15 @@ namespace NationalIdValidation.Tests
                 "abcdefghijk",
                 "01.05.94.51843",
                 "010594.51843",
-                "811218-9875",
+                "811218-9875"
             };
             MaleIds = new List<string>
             {
-                "811218-9876",
+                "811218-9876"
             };
             FemaleIds = new List<string>
             {
-                "811218-9868",
+                "811218-9868"
             };
         }
 
@@ -98,12 +98,12 @@ namespace NationalIdValidation.Tests
             var birthDateTests = new Dictionary<string, DateTime>
             {
                 {"811218-9876", new DateTime(1981, 12, 18)},
-                {"811218-9868", new DateTime(1981, 12, 18)},
+                {"811218-9868", new DateTime(1981, 12, 18)}
             };
-            foreach (var id in birthDateTests)
+            foreach (var (key, birthDate) in birthDateTests)
             {
-                var idObject = new SwedishPersonalId(id.Key);
-                Assert.AreEqual(id.Value, idObject.BirthDate);
+                var idObject = new SwedishPersonalId(key);
+                Assert.AreEqual(birthDate, idObject.BirthDate);
             }
         }
 

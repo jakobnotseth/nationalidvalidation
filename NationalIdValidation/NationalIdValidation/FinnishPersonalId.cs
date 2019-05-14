@@ -41,7 +41,7 @@ namespace NationalIdValidation
         public FinnishPersonalId(string finnishIdString)
         {
             IsValid = false;
-            Gender = Gender.Unknown;
+            Gender = Gender.NotKnown;
             BirthDate = DateTime.MinValue;
             if (string.IsNullOrEmpty(finnishIdString)) return;
             var reg = Regex.Match(finnishIdString, @"^(?<d1>[0-3])(?<d2>[0-9])(?<m1>[0-1])(?<m2>[0-9])(?<y3>[0-9])(?<y4>[0-9])(?<divider>[+-A])(?<i1>\d)(?<i2>\d)(?<i3>\d)(?<c1>[\dABCDEFHJKLMNPRSTUVWXY])$", RegexOptions.CultureInvariant | RegexOptions.Singleline);

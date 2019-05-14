@@ -4,9 +4,21 @@ using System.Text.RegularExpressions;
 
 namespace NationalIdValidation
 {
+    // ReSharper disable once CommentTypo
     /// <summary>
     /// Class for input validating Norwegian personal ID-numbers
     /// </summary>
+    /// <remarks>
+    /// Only the identification schemes with officially published validation standards are included.
+    /// This means that H- and FH-numbers which are defined in KITH standard publications will be validated,
+    /// but that DUF-numbers (asylum seekers), S-Numbers (higher education identification numbers) and
+    /// "VGO"-numbers (lower education identification numbers) will not be validated since these lack validation publication.
+    /// In theory, a DUF-number is a 12 -digit number starting with the 4-digit year 'Y' first registering for asylum in Norway,
+    /// 6-digits sequential number 'L' then 2-digit control 'C', validating 'LLLLLLYYYY' using the product weights {4,6,3,2,7,5,4,6,3,2} mod 11.
+    /// S-Numbers follows the same structure as H-numbers, but adding 5 to the third digit instead of 4, thus also overlapping with H-Numbers.
+    /// "VGO"-Numbers follows the same structure as D-Numbers, and requires in addition the individual number to be sequential from 99 and down + gender reference + county subdivision code.
+    /// You can thus not separate "VGO"-Numbers from the official D-Numbers.
+    /// </remarks>
     public class NorwegianPersonalId
     {
         /// <summary>
@@ -44,7 +56,7 @@ namespace NationalIdValidation
         public NorwegianPersonalId(string norwegianIdString)
         {
             IsValid = false;
-            Gender = Gender.Unknown;
+            Gender = Gender.NotKnown;
             BirthDate = DateTime.MinValue;
             NorwegianPersonalIdType = NorwegianPersonalIdType.Unknown;
             if (string.IsNullOrEmpty(norwegianIdString)) return;
@@ -75,8 +87,8 @@ namespace NationalIdValidation
             var i3 = int.Parse(reg.Groups["i3"].Value); // individual 3
             var c1 = int.Parse(reg.Groups["c1"].Value); // control 1
             var c2 = int.Parse(reg.Groups["c2"].Value); // control 2
-            var r1 = ((d1 * 3) + (d2 * 7) + (m1 * 6) + m2 + (y3 * 8) + (y4 * 9) + (i1 * 4) + (i2 * 5) + (i3 * 2)) % 11; // result 1
-            var r2 = ((d1*5) + (d2*4) + (m1*3) + (m2*2) + (y3*7) + (y4*6) + (i1*5) + (i2*4) + (i3*3) + (c1*2))%11;// result 2
+            var r1 = (d1 * 3 + d2 * 7 + m1 * 6 + m2 + y3 * 8 + y4 * 9 + i1 * 4 + i2 * 5 + i3 * 2) % 11; // result 1
+            var r2 = (d1*5 + d2*4 + m1*3 + m2*2 + y3*7 + y4*6 + i1*5 + i2*4 + i3*3 + c1*2)%11;// result 2
             int s1; // sum 1 --> control 1
             int s2; // sum 2 --> control 2
             if (r1 == 0)
@@ -99,6 +111,7 @@ namespace NationalIdValidation
             else if (d1 >= 8)
             {
                 NorwegianPersonalIdType = NorwegianPersonalIdType.FHNumber;
+                Gender = Gender.NotApplicable;
                 IsValid = true;
                 return; // no birthdate or gender can be extrapolated from fh-numbers
             }
@@ -111,30 +124,47 @@ namespace NationalIdValidation
                 NorwegianPersonalIdType = NorwegianPersonalIdType.BirthNumber;
             // The gender can be determined by the third individual number, odd digit is male, even is female
             Gender = i3%2 == 0 ? Gender.Female : Gender.Male;
-            // We only have the last two digits in the year element, we get the first two digits using the following table
-            // Individual number  Years (y3, y4)   Century
-            // 500 - 749          > 54             1855 - 1899
-            // 000 - 499                           1900 - 1999
-            // 900 - 999          > 39             1940 - 1999
-            // 500 - 999          < 40             2000 - 2039
             var i = int.Parse($"{i1}{i2}{i3}");
             var y = int.Parse($"{y3}{y4}");
-            if (i >= 500 && i <= 749 && y >= 55)
+            // ReSharper disable once SwitchStatementMissingSomeCases
+            switch (NorwegianPersonalIdType)
             {
-                y += 1800;
+                case NorwegianPersonalIdType.BirthNumber:
+                case NorwegianPersonalIdType.HNumber:
+                    // We only have the last two digits in the year element, we get the first two digits using the following table
+                    // Individual number  Years (y3, y4)   Century
+                    // 500 - 749          > 54             1855 - 1899
+                    // 000 - 499                           1900 - 1999
+                    // 900 - 999          > 39             1940 - 1999
+                    // 500 - 999          < 40             2000 - 2039
+                    if (i >= 500 && i <= 749 && y >= 55)
+                        y += 1800;
+                    else if (i <= 499 || i >= 900 && y >= 40)
+                        y += 1900;
+                    else
+                        y += 2000;
+
+                    // The date should parse to a valid DateTime object
+                    if (!DateTime.TryParseExact($"{y}{m1}{m2}{d1}{d2}", "yyyyMMdd",
+                        CultureInfo.InvariantCulture, DateTimeStyles.None, out var bDate)) return;
+                    BirthDate = bDate;
+                    break;
+                case NorwegianPersonalIdType.DNumber:
+                    // We only have the last two digits in the year element, we get the first two digits using the following table
+                    // Individual number  Years (y3, y4)   Century
+                    // 500 - 999                           2000 - 2099
+                    // 000 - 499                           1900 - 1999
+                    if (i >= 500)
+                        y += 2000;
+                    else
+                        y += 1900;
+
+                    // The date should parse to a valid DateTime object
+                    if (!DateTime.TryParseExact($"{y}{m1}{m2}{d1}{d2}", "yyyyMMdd",
+                        CultureInfo.InvariantCulture, DateTimeStyles.None, out var bDDate)) return;
+                    BirthDate = bDDate;
+                    break;
             }
-            else if ((i <= 499) || (i >= 900 && y >= 40))
-            {
-                y += 1900;
-            }
-            else
-            {
-                y += 2000;
-            }
-            // The date should parse to a valid DateTime object
-            if (!DateTime.TryParseExact($"{y}{m1}{m2}{d1}{d2}", "yyyyMMdd",
-                CultureInfo.InvariantCulture, DateTimeStyles.None, out var bDate)) return;
-            BirthDate = bDate;
             IsValid = true;
         }
     }

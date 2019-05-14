@@ -17,7 +17,7 @@ namespace NationalIdValidation.Tests
             ValidModulo10IdNumbers = new List<string>
             {
                 "123456782",
-                "1234567830",
+                "1234567830"
             };
             InvalidModulo10IdNumbers = new List<string>
             {
@@ -31,13 +31,13 @@ namespace NationalIdValidation.Tests
                 "000\u00000",
                 "008\0",
                 "123456785",
-                "12345678901234567890123456",
+                "12345678901234567890123456"
             };
             ValidModulo11IdNumbers = new List<string>
             {
                 "123456785",
                 "1234567930",
-                "123456784-",
+                "123456784-"
             };
             InvalidModulo11IdNumbers = new List<string>
             {
@@ -51,7 +51,7 @@ namespace NationalIdValidation.Tests
                 "000\u00000",
                 "008\0",
                 "123456782",
-                "12345678901234567890123456",
+                "12345678901234567890123456"
             };
         }
 
@@ -63,10 +63,16 @@ namespace NationalIdValidation.Tests
                 var idObject = new NorwegianCustomerId(id, CustomerIdValidationRoutine.Modulus10);
                 Assert.IsTrue(idObject.IsValid, $"A valid mathematically modulus 10 number does not validate: {id}");
                 Assert.AreEqual(CustomerIdValidationRoutine.Modulus10, idObject.ValidationRoutine);
+                idObject = new NorwegianCustomerId(id);
+                Assert.IsTrue(idObject.IsValid, $"A valid mathematically modulus 10 number does not validate: {id}");
+                Assert.AreEqual(CustomerIdValidationRoutine.Modulus10, idObject.ValidationRoutine);
             }
             foreach (var id in ValidModulo11IdNumbers)
             {
                 var idObject = new NorwegianCustomerId(id, CustomerIdValidationRoutine.Modulus11);
+                Assert.IsTrue(idObject.IsValid, $"A valid mathematically modulus 11 number does not validate: {id}");
+                Assert.AreEqual(CustomerIdValidationRoutine.Modulus11, idObject.ValidationRoutine);
+                idObject = new NorwegianCustomerId(id);
                 Assert.IsTrue(idObject.IsValid, $"A valid mathematically modulus 11 number does not validate: {id}");
                 Assert.AreEqual(CustomerIdValidationRoutine.Modulus11, idObject.ValidationRoutine);
             }

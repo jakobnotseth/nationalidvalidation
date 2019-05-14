@@ -106,10 +106,10 @@ namespace NationalIdValidation.Tests
                 {"311280A888Y", new DateTime(2080, 12, 31)},
                 {"311280A999J", new DateTime(2080, 12, 31)}
             };
-            foreach (var id in birthDateTests)
+            foreach (var (key, birthDate) in birthDateTests)
             {
-                var idObject = new FinnishPersonalId(id.Key);
-                Assert.AreEqual(id.Value, idObject.BirthDate);
+                var idObject = new FinnishPersonalId(key);
+                Assert.AreEqual(birthDate, idObject.BirthDate);
             }
         }
 
